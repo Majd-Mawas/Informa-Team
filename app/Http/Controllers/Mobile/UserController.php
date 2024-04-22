@@ -27,7 +27,32 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        return new UserResource(User::create($request->all()));
+        try {
+            $attributes = request()->validate([
+                'name' => 'required|string',
+                'email' => 'required|string',
+                'password' => 'required|string',
+                'role_id' => 'required|string',
+                'phone' => 'required|string',
+                'education' => 'required|string',
+            ]);
+            if (User::where('email', $attributes['email'])->exists()) {
+                return response()->json(['message' => 'Email already in use'], 422);
+            }
+            $user = User::create($attributes);
+            $updateToken = $user->createToken('update-token', ['update']);
+
+            return response()->json(
+                [
+                    'Api_Token' => $updateToken->plainTextToken,
+                    'result' => new UserResource($user)
+                ],
+                200
+            );
+        } catch (\Exception $e) {
+            abort(500);
+            return $e;
+        }
     }
 
     /**
@@ -43,7 +68,8 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        return new UserResource($user->update($request->all()));
+        $user->update($request->all());
+        return new UserResource($user);
     }
 
     /**
@@ -52,27 +78,34 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+        return response()->json(["data" => "User Deleted Successfully"]);
     }
 
     public function login(Request $request)
     {
+        try {
 
-        $request->validate([
-            'email' => 'required|string',
-            'password' => 'required|string',
-        ]);
 
-        if (Auth::attempt($request->only('email', 'password'))) {
-            $user = Auth::user();
-            $updateToken = $user->createToken('update-token', ['update']);
+            $request->validate([
+                'email' => 'required|string',
+                'password' => 'required|string',
+            ]);
 
-            return response()->json(
-                [
-                    'Api_Token' => $updateToken->plainTextToken,
-                    'result' => new UserResource($user)
-                ],
-                200
-            );
+            if (Auth::attempt($request->only('email', 'password'))) {
+                $user = Auth::user();
+                $updateToken = $user->createToken('update-token', ['update']);
+
+                return response()->json(
+                    [
+                        'Api_Token' => $updateToken->plainTextToken,
+                        'result' => new UserResource($user)
+                    ],
+                    200
+                );
+            }
+        } catch (\Exception $e) {
+            //throw $th;
+            return $e;
         }
     }
     public function signup(Request $request)
@@ -107,32 +140,37 @@ class UserController extends Controller
 
     public function auth(Request $request)
     {
-        $token = PersonalAccessToken::findToken($request->access_token);
-        if (!$token) {
+        try {
+            $token = PersonalAccessToken::findToken($request->access_token);
+            if (!$token) {
+                return response()->json(
+                    [
+                        'message' => 'Token Not Found'
+                    ],
+                    404
+                );
+            }
+            $user = $token->tokenable;
+
+            if ($user == null) {
+                return response()->json(
+                    [
+                        'message' => 'User Not Found'
+                    ],
+                    404
+                );
+            }
+
             return response()->json(
                 [
-                    'message' => 'Token Not Found'
+                    'Api_Token' => $request->access_token,
+                    'result' => new UserResource($user)
                 ],
-                404
+                200
             );
+        } catch (\Exception $e) {
+            //throw $th;
+            return $e;
         }
-        $user = $token->tokenable;
-
-        if ($user == null) {
-            return response()->json(
-                [
-                    'message' => 'User Not Found'
-                ],
-                404
-            );
-        }
-
-        return response()->json(
-            [
-                'Api_Token' => $request->access_token,
-                'result' => new UserResource($user)
-            ],
-            200
-        );
     }
 }
