@@ -22,8 +22,8 @@ use App\Http\Controllers\Mobile\UserController;
 // });
 
 Route::prefix('V1/flutter')->middleware('auth:sanctum')->group(function () {
-    Route::get('bookings/workshops', [BookingController::class, 'workshops']);
     Route::get('bookings/services', [BookingController::class, 'services']);
+    Route::get('bookings/workshops', [BookingController::class, 'workshops']);
     Route::get('bookings/volunteers', [BookingController::class, 'volunteers']);
     Route::apiResource('users', UserController::class)->except('login', "signup");
     Route::apiResource('workshops', WorkshopController::class);

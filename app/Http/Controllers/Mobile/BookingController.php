@@ -36,36 +36,55 @@ class BookingController extends Controller
 
             $booking->user_id = $request->user_id;
             $booking->description = $request->description;
-
-            if (isset($request->workshop_id)) {
+            $type = '';
+            if (isset($request->type) && $request->type == "workshops") {
                 $booking->workshop_id = $request->workshop_id;
                 $booking->is_volunteer = 0;
-            } else if ($request->time_id) {
-                $booking->time_id = $request->time_id;
+                $type = 'workshop';
+            } else if (isset($request->type) && $request->type == "services") {
                 $booking->is_volunteer = 0;
-                $requestedService = '';
-                $ServiceType = '';
+                $requestedService = [];
+                $type = 'service';
+
                 if (isset($request->program_id)) {
-                    $requestedService = $request->program_id;
-                    $ServiceType = 'Programs';
+                    $requestedService['Programs'] = $request->program_id;
                 }
                 if (isset($request->maintenance_id)) {
-                    $requestedService = $request->maintenance_id;
-                    $ServiceType = 'Maintenance';
+                    $booking->time_id = $request->time_id;
+                    $requestedService['Maintenances'] = $request->maintenance_id;
                 }
                 if (isset($request->course_id)) {
-                    $requestedService = $request->course_id;
-                    $ServiceType = 'Course';
+                    $requestedService['Courses'] = $request->course_id;
                 }
 
-                $service_id = $this->createService($request->user_id, $requestedService, $ServiceType);
+                $service_id = $this->createService($request->user_id, $requestedService);
                 $booking->service_id = $service_id;
-            } else {
+            } else if (isset($request->type) && $request->type == "volunteers") {
                 $booking->is_volunteer = 1;
+                $type = 'volunteer';
             }
 
             $booking->save();
-            return new BookingResource($booking);
+            switch ($type) {
+                case 'workshop':
+                    return new BookingsWorkshopsResource($booking);
+                    // return new
+                    //     BookingsWorkshopsCollection(Booking::whereNotNull('workshop_id')->get());
+
+                case 'service':
+                    // return new
+                    //     BookingsServicesCollection(Booking::whereNotNull('workshop_id')->get());
+
+                    return new BookingsServicesResource($booking);
+                case 'volunteer':
+                    // return new
+                    // BookingsVolunteersCollection(Booking::whereNotNull('workshop_id')->get());
+
+                    return new BookingsVolunteersResource($booking);
+                default:
+                    // return new BookingResource($booking);
+                    return "Informa Team"
+            }
         } catch (\Exception $e) {
             // abort(500);
             return $e;
@@ -89,9 +108,7 @@ class BookingController extends Controller
                     'type' => "Services Booking",
                     'data' => new BookingsServicesResource($booking)
                 ]);
-                // return new BookingsServicesResource($booking);
             } elseif (isset($booking->is_volunteer)) {
-                // return new BookingsVolunteersResource($booking);
                 return response()->json([
                     'type' => "Volunteers Booking",
                     'data' => new BookingsVolunteersResource($booking)
@@ -132,22 +149,22 @@ class BookingController extends Controller
         }
     }
 
-    public function createService($user_id, $requestedService, $ServiceType)
+    public function createService($user_id, $requestedService)
     {
         $service = new Service;
 
         $service->Beneficiarie_id = $user_id;
 
-        switch ($ServiceType) {
-            case 'Programs':
-                $service->Program_id = $requestedService;
-                break;
-            case 'Maintenance':
-                $service->Maintenance_id = $requestedService;
-                break;
-            case 'Course':
-                $service->Course_id = $requestedService;
-                break;
+        foreach ($requestedService as $key => $value) {
+            if ($key == 'Programs') {
+                $service->Program_id = $value;
+            }
+            if ($key == 'Maintenances') {
+                $service->Maintenance_id = $value;
+            }
+            if ($key == 'Courses') {
+                $service->Course_id = $value;
+            }
         }
 
         $service->started_at = now();

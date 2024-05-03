@@ -27,8 +27,20 @@ class WorkshopController extends Controller
 
             $workshop = new Workshop;
 
-            $workshop->date = $request->date;
-            $workshop->semester = $request->semester;
+            $uploadedFiles = $request->file;
+            $originalFileName = pathinfo($uploadedFiles->getClientOriginalName(), PATHINFO_FILENAME);
+            $fileName = preg_replace('/\s+/', '', $originalFileName) . '-' . uniqid() . '.' . $uploadedFiles->getClientOriginalExtension();
+            $uploadedFiles->storeAs('public/uploads/', $fileName);
+            $filePath = 'uploads/' . $fileName;
+
+            $workshop->path = $filePath;
+
+            $workshop->Date = $request->date;
+            $workshop->title = $request->title;
+            $workshop->description = $request->description;
+
+
+            $workshop->ended_at = $request->ended_at;
 
             $workshop->save();
 
