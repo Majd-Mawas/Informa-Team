@@ -83,7 +83,7 @@ class BookingController extends Controller
                     return new BookingsVolunteersResource($booking);
                 default:
                     // return new BookingResource($booking);
-                    return "Informa Team"
+                    return "Informa Team";
             }
         } catch (\Exception $e) {
             // abort(500);

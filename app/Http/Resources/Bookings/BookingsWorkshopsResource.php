@@ -4,6 +4,7 @@ namespace App\Http\Resources\Bookings;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\WorkshopResource;
 
 class BookingsWorkshopsResource extends JsonResource
 {
@@ -18,9 +19,9 @@ class BookingsWorkshopsResource extends JsonResource
             'id' => $this->id,
             'user_name' => $this->user->name,
             'description' => $this->description,
-            'workshop_date' => $this->workshop->Date,
-            'workshop_Semester' => $this->workshop->Semester,
             'created_at' => $this->created_at,
+            // "workshop" => isset($this->workshop) ? new WorkshopResource($this->workshop) : null
+            "workshop" => new WorkshopResource($this->workshop)
         ];
     }
 }

@@ -27,7 +27,8 @@ class WorkshopController extends Controller
 
             $workshop = new Workshop;
 
-            if ($request->file) {
+
+            if (isset($request->file)) {
 
                 $uploadedFiles = $request->file;
                 $originalFileName = pathinfo($uploadedFiles->getClientOriginalName(), PATHINFO_FILENAME);
@@ -38,7 +39,7 @@ class WorkshopController extends Controller
                 $workshop->path = $filePath;
             }
 
-            $workshop->Date = $request->date;
+            $workshop->Date = $request->Date;
             $workshop->title = $request->title;
             $workshop->description = $request->description;
 
@@ -46,10 +47,11 @@ class WorkshopController extends Controller
             $workshop->ended_at = $request->ended_at;
 
             $workshop->save();
+            // return "sad";
 
             return new WorkshopResource($workshop);
         } catch (\Exception $e) {
-            abort(500);
+            // abort(500);
             return $e;
         }
     }

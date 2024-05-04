@@ -14,6 +14,12 @@ class WorkshopResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            "id" => $this->id,
+            "Date" => $this->Date,
+            "title" => $this->title,
+            "description" => $this->description,
+            "image_url" => $this->path ? asset('storage/' . $this->path) : null
+        ];
     }
 }
