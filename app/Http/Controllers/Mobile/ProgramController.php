@@ -3,20 +3,19 @@
 namespace App\Http\Controllers\Mobile;
 
 use App\Http\Controllers\Controller;
-use App\Models\Article;
+use App\Models\Program;
 use Illuminate\Http\Request;
-use App\Http\Resources\ArticleResource;
-use App\Http\Resources\ArticleCollection;
+use App\Http\Resources\ProgramResource;
+use App\Http\Resources\ProgramCollection;
 
-
-class ArticleController extends Controller
+class ProgramController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return  new ArticleCollection(Article::all());
+        return new ProgramCollection(Program::all());
     }
 
     /**
@@ -24,8 +23,10 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+
         try {
-            $article = new Article;
+
+            $program = new Program;
 
             if (isset($request->file)) {
 
@@ -41,16 +42,15 @@ class ArticleController extends Controller
 
                 $filePath = 'uploads/' . $fileName;
 
-                $article->path = $filePath;
+                $program->path = $filePath;
             }
 
-            $article->title = $request->title;
-            $article->body = $request->body;
-            $article->author_id = auth('sanctum')->id();
+            $program->Name = $request->name;
+            $program->Released_at = $request->released_at;
 
-            $article->save();
+            $program->save();
 
-            return new ArticleResource($article);
+            return new ProgramResource($program);
         } catch (\Exception $e) {
             return $e;
         }
@@ -59,15 +59,15 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Article $article)
+    public function show(Program $program)
     {
-        return new ArticleResource($article);
+        return new ProgramResource($program);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Article $article)
+    public function update(Request $request, Program $program)
     {
         try {
             if (isset($request->file)) {
@@ -84,16 +84,15 @@ class ArticleController extends Controller
 
                 $filePath = 'uploads/' . $fileName;
 
-                $article->path = $filePath;
+                $program->path = $filePath;
             }
 
-            $article->title = $request->title;
-            $article->body = $request->body;
-            $article->author_id = auth('sanctum')->id();
+            $program->Name = $request->name;
+            $program->Released_at = $request->released_at;
 
-            $article->save();
+            $program->save();
 
-            return new ArticleResource($article);
+            return new ProgramResource($program);
         } catch (\Exception $e) {
             return $e;
         }
@@ -102,10 +101,10 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Article $article)
+    public function destroy(Program $program)
     {
-        $article->delete();
+        $program->delete();
 
-        return response()->json(['data' => 'article deleted successfully']);
+        return response()->json(['data' => 'program deleted successfully']);
     }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Mobile\BookingController;
 use App\Http\Controllers\Mobile\WorkshopController;
 use App\Http\Controllers\Mobile\ArticleController;
+use App\Http\Controllers\Mobile\ProgramController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Mobile\UserController;
@@ -30,6 +31,7 @@ Route::prefix('V1/flutter')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('workshops', WorkshopController::class);
     Route::apiResource('bookings', BookingController::class);
     Route::apiResource('articles', ArticleController::class);
+    Route::apiResource('programs', ProgramController::class);
 });
 
 Route::prefix('V1/flutter')->controller(UserController::class)->group(function () {

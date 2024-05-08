@@ -34,6 +34,11 @@ class WorkshopController extends Controller
                 $originalFileName = pathinfo($uploadedFiles->getClientOriginalName(), PATHINFO_FILENAME);
                 $fileName = preg_replace('/\s+/', '', $originalFileName) . '-' . uniqid() . '.' . $uploadedFiles->getClientOriginalExtension();
                 $uploadedFiles->storeAs('public/uploads/', $fileName);
+
+                $path = $uploadedFiles->store('public/uploads');
+
+                $uploadedFiles->move(base_path('public_html/storage/uploads'), $fileName);
+
                 $filePath = 'uploads/' . $fileName;
 
                 $workshop->path = $filePath;
