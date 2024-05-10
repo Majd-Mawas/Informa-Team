@@ -100,17 +100,14 @@ class BookingController extends Controller
 
             if (isset($booking->workshop_id)) {
                 return response()->json([
-                    'type' => "Workshop Booking",
                     'data' => new BookingsWorkshopsResource($booking)
                 ]);
             } else if (isset($booking->service_id)) {
                 return response()->json([
-                    'type' => "Services Booking",
                     'data' => new BookingsServicesResource($booking)
                 ]);
             } elseif (isset($booking->is_volunteer)) {
                 return response()->json([
-                    'type' => "Volunteers Booking",
                     'data' => new BookingsVolunteersResource($booking)
                 ]);
             }
