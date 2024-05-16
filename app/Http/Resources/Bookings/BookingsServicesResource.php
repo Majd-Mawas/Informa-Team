@@ -17,7 +17,7 @@ class BookingsServicesResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'time' => $this->time->time??'',
+            'time' => $this->time??'',
             'user_name' => $this->user->name,
             'description' => $this->description,
             'created_at' => $this->created_at,

@@ -37,7 +37,8 @@ class WorkshopController extends Controller
 
                 $path = $uploadedFiles->store('public/uploads');
 
-                $uploadedFiles->move(base_path('public_html/storage/uploads'), $fileName);
+                // $uploadedFiles->move(base_path('public_html/storage/uploads'), $fileName);
+                $uploadedFiles->move(base_path('public/storage/uploads'), $fileName);
 
                 $filePath = 'uploads/' . $fileName;
 

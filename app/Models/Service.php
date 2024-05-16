@@ -17,11 +17,13 @@ class Service extends Model
 
     public function programs()
     {
-        return $this->belongsTo(Program::class, "Program_id");
+        return $this->belongsToMany(Program::class, "services_programs","service_id","program_id");
     }
     public function courses()
     {
-        return $this->belongsTo(Course::class, "Course_id");
+        return $this->belongsToMany(Course::class, "services_courses","service_id","course_id");
+
+        // return $this->belongsTo(Course::class, "Course_id");
     }
     public function maintenances()
     {

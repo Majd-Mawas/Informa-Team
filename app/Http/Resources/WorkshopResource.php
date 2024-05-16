@@ -19,6 +19,7 @@ class WorkshopResource extends JsonResource
             "Date" => $this->Date,
             "title" => $this->title,
             "description" => $this->description,
+            "ended_at" => $this->ended_at,
             "image_url" => $this->path ? asset('storage/' . $this->path) : null
         ];
     }

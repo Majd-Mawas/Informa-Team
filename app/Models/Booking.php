@@ -23,8 +23,8 @@ class Booking extends Model
     {
         return $this->belongsTo(Service::class, "service_id");
     }
-    public function time()
-    {
-        return $this->belongsTo(Time::class, "time_id");
-    }
+    // public function time()
+    // {
+    //     return $this->belongsTo(Time::class, "time_id");
+    // }
 }
