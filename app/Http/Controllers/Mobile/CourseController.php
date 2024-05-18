@@ -25,6 +25,20 @@ class CourseController extends Controller
     {
         $course = new Course;
 
+        if (isset($request->file)) {
+
+            $uploadedFiles = $request->file;
+            $originalFileName = pathinfo($uploadedFiles->getClientOriginalName(), PATHINFO_FILENAME);
+            $fileName = preg_replace('/\s+/', '', $originalFileName) . '-' . uniqid() . '.' . $uploadedFiles->getClientOriginalExtension();
+            $uploadedFiles->storeAs('public/uploads/', $fileName);
+
+            $uploadedFiles->move(base_path('public/storage/uploads'), $fileName);
+
+            $filePath = 'uploads/' . $fileName;
+
+            $course->path = $filePath;
+        }
+
         $course->Name = $request->name;
         $course->By = $request->by;
         $course->difficulty = $request->difficulty;
@@ -32,11 +46,12 @@ class CourseController extends Controller
         $course->duration = $request->duration;
         $course->num_video = $request->num_video;
         $course->released_at = $request->released_at;
+        $course->telegram_link = $request->telegram_link;
+        $course->rate = $request->rate;
 
         $course->save();
 
         return new CourseResource($course);
-
     }
 
     /**
@@ -59,6 +74,9 @@ class CourseController extends Controller
         $course->duration = $request->duration;
         $course->num_video = $request->num_video;
         $course->released_at = $request->released_at;
+        $course->telegram_link = $request->telegram_link;
+        $course->rate = $request->rate;
+
 
         $course->save();
 
