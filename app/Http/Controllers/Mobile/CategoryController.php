@@ -25,6 +25,21 @@ class CategoryController extends Controller
     {
         $category = new Category;
 
+
+        if (isset($request->file)) {
+
+            $uploadedFiles = $request->file;
+            $originalFileName = pathinfo($uploadedFiles->getClientOriginalName(), PATHINFO_FILENAME);
+            $fileName = preg_replace('/\s+/', '', $originalFileName) . '-' . uniqid() . '.' . $uploadedFiles->getClientOriginalExtension();
+            $uploadedFiles->storeAs('public/uploads/', $fileName);
+            $uploadedFiles->move(base_path('public/storage/uploads'), $fileName);
+
+
+            $filePath = 'uploads/' . $fileName;
+
+            $category->path = $filePath;
+        }
+
         $category->name = $request->name;
 
         $category->save();
