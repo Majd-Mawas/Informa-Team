@@ -16,7 +16,9 @@ class CategoriesResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name
+            'name' => $this->name,
+            "image_url" => $this->path ? asset('storage/' . $this->path) : null
+
         ];
     }
 }
