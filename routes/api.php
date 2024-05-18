@@ -5,6 +5,7 @@ use App\Http\Controllers\Mobile\WorkshopController;
 use App\Http\Controllers\Mobile\ArticleController;
 use App\Http\Controllers\Mobile\ProgramController;
 use App\Http\Controllers\Mobile\CategoryController;
+use App\Http\Controllers\Mobile\CourseController as FlutterCourseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Mobile\UserController;
@@ -68,7 +69,7 @@ Route::prefix('V1/flutter')->middleware('auth:sanctum')->group(function () {
         'destroy' => 'v1.flutter.programs.destroy',
     ]);
 
-    Route::apiResource('courses', CourseController::class)->names([
+    Route::apiResource('courses', FlutterCourseController::class)->names([
         'index' => 'v1.flutter.courses.index',
         'show' => 'v1.flutter.courses.show',
         'store' => 'v1.flutter.courses.store',
