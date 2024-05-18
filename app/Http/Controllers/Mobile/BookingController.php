@@ -139,6 +139,10 @@ class BookingController extends Controller
 
             $booking->delete();
 
+            if ($booking->services) {
+                $booking->services->delete();
+            }
+
             return response()->json(["data" => "Booking Deleted Successfully"]);
         } catch (\Exception $e) {
             abort(500);

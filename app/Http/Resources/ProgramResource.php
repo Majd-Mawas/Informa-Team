@@ -18,6 +18,10 @@ class ProgramResource extends JsonResource
             'id' => $this->id,
             "name" => $this->Name,
             "released_at" => $this->Released_at,
+            "telegram_link" => $this->telegram_link,
+            "youtube_link" => $this->youtube_link,
+            "size" => $this->size,
+            "description" => $this->description,
             "image_url" => $this->path ? asset('storage/' . $this->path) : null
         ];
     }

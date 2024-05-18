@@ -94,11 +94,20 @@ class UserController extends Controller
             if (Auth::attempt($request->only('email', 'password'))) {
                 $user = Auth::user();
                 $updateToken = $user->createToken('update-token', ['update']);
+                // $words = preg_split('/\s+/', $user->name);
 
                 return response()->json(
                     [
-                        'Api_Token' => $updateToken->plainTextToken,
-                        'result' => new UserResource($user)
+                        'api_token' => $updateToken->plainTextToken,
+                        // "first_name" => $words[0],
+                        // "last_name" => $words[1],
+                        "fullname" => $user->name,
+                        "email" => $user->email,
+                        "email_verified_at" => $user->email_verified_at,
+                        "created_at" => $user->created_at,
+                        "updated_at" => $user->updated_at,
+                        // 'result' => new UserResource($user)
+
                     ],
                     200
                 );
@@ -115,20 +124,30 @@ class UserController extends Controller
                 'name' => 'required|string',
                 'email' => 'required|string',
                 'password' => 'required|string',
-                'role_id' => 'required|string',
+                // 'role_id' => 'required|string',
                 'phone' => 'required|string',
-                'education' => 'required|string',
+                // 'education' => 'required|string',
             ]);
             if (User::where('email', $attributes['email'])->exists()) {
                 return response()->json(['message' => 'Email already in use'], 422);
             }
+            $attributes['role_id'] = 3; // Visitor Role
+            $attributes['education'] = 'كلية الهندسة المعلوماتية';
+            unset($attributes['password_confirmation']);
             $user = User::create($attributes);
             $updateToken = $user->createToken('update-token', ['update']);
 
             return response()->json(
                 [
-                    'Api_Token' => $updateToken->plainTextToken,
-                    'result' => new UserResource($user)
+                    'api_token' => $updateToken->plainTextToken,
+                    // "first_name" => $words[0],
+                    // "last_name" => $words[1],
+                    "fullname" => $user->name,
+                    "email" => $user->email,
+                    "email_verified_at" => $user->email_verified_at,
+                    "created_at" => $user->created_at,
+                    "updated_at" => $user->updated_at,
+                    // 'result' => new UserResource($user)
                 ],
                 200
             );
@@ -141,7 +160,7 @@ class UserController extends Controller
     public function auth(Request $request)
     {
         try {
-            $token = PersonalAccessToken::findToken($request->access_token);
+            $token = PersonalAccessToken::findToken($request->api_token);
             if (!$token) {
                 return response()->json(
                     [
@@ -160,11 +179,19 @@ class UserController extends Controller
                     404
                 );
             }
+            // $words = preg_split('/\s+/', $user->name);
 
             return response()->json(
                 [
-                    'Api_Token' => $request->access_token,
-                    'result' => new UserResource($user)
+                    'api_token' => $request->api_token,
+                    // "first_name" => $words[0],
+                    // "last_name" => $words[1],
+                    "fullname" => $user->name,
+                    "email" => $user->email,
+                    "email_verified_at" => $user->email_verified_at,
+                    "created_at" => $user->created_at,
+                    "updated_at" => $user->updated_at,
+                    // 'result' => new UserResource($user)
                 ],
                 200
             );
@@ -174,3 +201,14 @@ class UserController extends Controller
         }
     }
 }
+
+// {
+//     "id": 2,
+//     "first_name": "Alvena",
+//     "last_name": "Ward",
+//     "email": "admin@demo.com",
+//     "email_verified_at": "2023-07-12T13:39:05.000000Z",
+//     "created_at": "2023-07-12T13:39:05.000000Z",
+//     "updated_at": "2023-07-12T13:39:05.000000Z",
+//     "api_token": "$2y$10$qyWRyuvGf4t9hAOndcV.vu.9ro6LFObwA5ovBoUtmB2ja4i9ipKAW"
+// }

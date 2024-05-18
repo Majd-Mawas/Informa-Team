@@ -48,6 +48,10 @@ class ProgramController extends Controller
 
             $program->Name = $request->name;
             $program->Released_at = $request->released_at;
+            $program->telegram_link = $request->telegram_link;
+            $program->youtube_link = $request->youtube_link;
+            $program->size = $request->size;
+            $program->description = $request->description;
 
             $program->save();
 
@@ -91,6 +95,10 @@ class ProgramController extends Controller
 
             $program->Name = $request->name;
             $program->Released_at = $request->released_at;
+            $program->telegram_link = $request->telegram_link;
+            $program->youtube_link = $request->youtube_link;
+            $program->size = $request->size;
+            $program->description = $request->description;
 
             $program->save();
 
