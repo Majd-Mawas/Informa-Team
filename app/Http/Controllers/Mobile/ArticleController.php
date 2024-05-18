@@ -34,20 +34,17 @@ class ArticleController extends Controller
                 $fileName = preg_replace('/\s+/', '', $originalFileName) . '-' . uniqid() . '.' . $uploadedFiles->getClientOriginalExtension();
                 $uploadedFiles->storeAs('public/uploads/', $fileName);
 
-                $path = $uploadedFiles->store('public/uploads');
-
-                // $uploadedFiles->move(base_path('public_html/storage/uploads'), $fileName);
                 $uploadedFiles->move(base_path('public/storage/uploads'), $fileName);
-
 
                 $filePath = 'uploads/' . $fileName;
 
                 $article->path = $filePath;
             }
 
-            $article->title = $request->title;
             $article->body = $request->body;
-            $article->author_id = auth('sanctum')->id();
+            $article->title = $request->title;
+            $article->author_name = $request->author_name;
+            $article->released_at = $request->released_at;
 
             $article->save();
 
@@ -89,9 +86,10 @@ class ArticleController extends Controller
                 $article->path = $filePath;
             }
 
-            $article->title = $request->title;
             $article->body = $request->body;
-            $article->author_id = auth('sanctum')->id();
+            $article->title = $request->title;
+            $article->author_name = $request->author_name;
+            $article->released_at = $request->released_at;
 
             $article->save();
 

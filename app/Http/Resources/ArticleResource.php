@@ -18,6 +18,8 @@ class ArticleResource extends JsonResource
             "id" => $this->id,
             "title" => $this->title,
             "body" => $this->body,
+            "author_name" => $this->author_name,
+            "released_at" => $this->released_at,
             "image_url" => $this->path ? asset('storage/' . $this->path) : null
         ];
     }
