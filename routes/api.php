@@ -4,6 +4,7 @@ use App\Http\Controllers\Mobile\BookingController;
 use App\Http\Controllers\Mobile\WorkshopController;
 use App\Http\Controllers\Mobile\ArticleController;
 use App\Http\Controllers\Mobile\ProgramController;
+use App\Http\Controllers\Mobile\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Mobile\UserController;
@@ -73,6 +74,14 @@ Route::prefix('V1/flutter')->middleware('auth:sanctum')->group(function () {
         'store' => 'v1.flutter.courses.store',
         'update' => 'v1.flutter.courses.update',
         'destroy' => 'v1.flutter.courses.destroy',
+    ]);
+
+    Route::apiResource('categories', CategoryController::class)->names([
+        'index' => 'v1.flutter.categories.index',
+        'show' => 'v1.flutter.categories.show',
+        'store' => 'v1.flutter.categories.store',
+        'update' => 'v1.flutter.categories.update',
+        'destroy' => 'v1.flutter.categories.destroy',
     ]);
 });
 
