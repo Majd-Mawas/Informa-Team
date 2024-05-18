@@ -22,7 +22,7 @@ class ProgramResource extends JsonResource
             "youtube_link" => $this->youtube_link,
             "size" => $this->size,
             "description" => $this->description,
-            "category_name" => $this?->category?->id ?? null,
+            "category_name" => $this?->category?->name ?? null,
             "image_url" => $this->path ? asset('storage/' . $this->path) : null
         ];
     }
