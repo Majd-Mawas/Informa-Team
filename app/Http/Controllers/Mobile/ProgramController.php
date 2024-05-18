@@ -52,6 +52,7 @@ class ProgramController extends Controller
             $program->youtube_link = $request->youtube_link;
             $program->size = $request->size;
             $program->description = $request->description;
+            $program->categories_id = $request->categories_id;
 
             $program->save();
 
