@@ -122,7 +122,7 @@ class ProgramController extends Controller
 
     public function getProgramsByCategory($category_id)
     {
-        $programs = Program::where('category_id', $category_id)->get();
+        $programs = Program::where('categories_id', $category_id)->get();
 
         return new ProgramCollection($programs);
     }
