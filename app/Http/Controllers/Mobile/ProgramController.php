@@ -119,4 +119,11 @@ class ProgramController extends Controller
 
         return response()->json(['data' => 'program deleted successfully']);
     }
+
+    public function getProgramsByCategory($category_id)
+    {
+        $programs = Program::where('category_id', $category_id)->get();
+
+        return new ProgramCollection($programs);
+    }
 }

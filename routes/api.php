@@ -84,6 +84,8 @@ Route::prefix('V1/flutter')->middleware('auth:sanctum')->group(function () {
         'update' => 'v1.flutter.categories.update',
         'destroy' => 'v1.flutter.categories.destroy',
     ]);
+
+    Route::get('get-programs-by-category/{category_id}', [ProgramController::class, 'getProgramsByCategory']);
 });
 
 Route::prefix('V1/flutter')->controller(UserController::class)->group(function () {
