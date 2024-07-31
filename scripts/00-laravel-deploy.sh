@@ -2,8 +2,8 @@
 
 # Ensure Composer dependencies are installed
 echo "Running composer"
-composer global require hirak/prestissimo
-composer install --no-dev --working-dir=/var/www/html
+composer2 global require hirak/prestissimo
+composer2 install --no-dev --working-dir=/var/www/html
 
 # Set appropriate permissions
 chown -R www-data:www-data /var/www/html
