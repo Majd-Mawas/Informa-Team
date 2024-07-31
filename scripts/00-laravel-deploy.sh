@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Update Composer to version 2 if not already installed
+echo "Updating Composer..."
+composer self-update --2
+
 # Ensure Composer dependencies are installed
 echo "Running composer"
 composer global require hirak/prestissimo
