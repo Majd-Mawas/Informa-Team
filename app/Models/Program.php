@@ -12,8 +12,8 @@ class Program extends Model
 
     public function services()
     {
-        return $this->belongsToMany(service::class, "services_programs","service_id","program_id");
-        // return $this->hasMany(service::class, "Program_id", "id");
+        // return $this->belongsToMany(service::class, "services_programs","service_id","program_id");
+        return $this->hasMany(Service::class, "Program_id", "id");
     }
 
     public function category()

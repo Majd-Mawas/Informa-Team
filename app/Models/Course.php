@@ -12,9 +12,9 @@ class Course extends Model
 
     public function services()
     {
-        return $this->belongsToMany(service::class, "services_courses","service_id","course_id");
+        // return $this->belongsToMany(service::class, "services_courses","service_id","course_id");
 
-        // return $this->hasMany(service::class, "Course_id");
+        return $this->hasMany(service::class, "Course_id");
     }
     public function category()
     {
