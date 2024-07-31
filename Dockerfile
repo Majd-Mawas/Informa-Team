@@ -1,6 +1,11 @@
 FROM richarvey/nginx-php-fpm:1.7.2
 
-COPY . .
+# Copy application source
+COPY . /var/www/html
+
+# Copy scripts folder and make sure it's executable
+COPY scripts/ /scripts/
+RUN chmod +x /scripts/00-laravel-deploy.sh
 
 # Image config
 ENV SKIP_COMPOSER 1
@@ -17,4 +22,5 @@ ENV LOG_CHANNEL stderr
 # Allow composer to run as root
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
-CMD ["/start.sh"]
+# Run the Laravel deploy script before starting the container
+CMD ["/bin/bash", "-c", "/scripts/00-laravel-deploy.sh && /start.sh"]
