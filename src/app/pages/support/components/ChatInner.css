@@ -1,0 +1,6 @@
+.support .app-content {
+  padding-block: 0;
+}
+.support .app-container {
+  padding-inline: 0 !important;
+}
