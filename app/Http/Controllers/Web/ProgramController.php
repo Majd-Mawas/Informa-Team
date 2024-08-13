@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Mobile;
+namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Program;
@@ -26,7 +26,7 @@ class ProgramController extends Controller
 
         try {
 
-            $input = $request->all();
+            $program = new Program;
 
             if (isset($request->file)) {
 
@@ -43,19 +43,16 @@ class ProgramController extends Controller
 
                 $filePath = 'uploads/' . $fileName;
 
-                // $program->path = $filePath;
-                $input['path'] = $filePath;
+                $program->path = $filePath;
             }
 
-            $program =  Program::create($input);
-
-            // $program->Name = $request->name;
-            // $program->Released_at = $request->released_at;
-            // $program->telegram_link = $request->telegram_link;
-            // $program->youtube_link = $request->youtube_link;
-            // $program->size = $request->size;
-            // $program->description = $request->description;
-            // $program->categories_id = $request->categories_id;
+            $program->Name = $request->name;
+            $program->Released_at = $request->released_at;
+            $program->telegram_link = $request->telegram_link;
+            $program->youtube_link = $request->youtube_link;
+            $program->size = $request->size;
+            $program->description = $request->description;
+            $program->categories_id = $request->categories_id;
 
             $program->save();
 
@@ -103,9 +100,7 @@ class ProgramController extends Controller
             $program->youtube_link = $request->youtube_link;
             $program->size = $request->size;
             $program->description = $request->description;
-            if (isset($request->categories_id)) {
-                $program->categories_id = $request->categories_id;
-            }
+            $program->categories_id = $request->categories_id;
 
             $program->save();
 
@@ -122,7 +117,7 @@ class ProgramController extends Controller
     {
         $program->delete();
 
-        return response()->json(['data' => 'program deleted successfully', 'success' => true]);
+        return response()->json(['data' => 'program deleted successfully']);
     }
 
     public function getProgramsByCategory($category_id)

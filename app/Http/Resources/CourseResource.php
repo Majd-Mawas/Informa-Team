@@ -26,7 +26,8 @@ class CourseResource extends JsonResource
             "released_at" => $this->released_at,
             "telegram_link" => $this->telegram_link,
             "rate" => $this->rate,
-            "image_url" => $this->path ? asset('storage/' . $this->path) : null
+            "image_url" => $this->path ? asset('storage/' . $this->path) : null,
+            "category_name" => $this?->category?->name ?? null,
         ];
     }
 }

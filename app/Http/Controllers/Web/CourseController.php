@@ -32,11 +32,11 @@ class CourseController extends Controller
         $course->duration = $request->duration;
         $course->num_video = $request->num_video;
         $course->released_at = $request->released_at;
+        $course->categories_id  = $request->categories_id;
 
         $course->save();
 
         return new CourseResource($course);
-
     }
 
     /**
@@ -59,6 +59,9 @@ class CourseController extends Controller
         $course->duration = $request->duration;
         $course->num_video = $request->num_video;
         $course->released_at = $request->released_at;
+
+        if (isset($request->categories_id))
+            $course->categories_id  = $request->categories_id;
 
         $course->save();
 

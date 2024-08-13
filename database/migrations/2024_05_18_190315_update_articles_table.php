@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('author_id');
+            // $table->dropConstrainedForeignId('author_id');
             $table->string('author_name')->after('path')->nullable();
             $table->string('released_at')->after('author_name')->nullable();
         });

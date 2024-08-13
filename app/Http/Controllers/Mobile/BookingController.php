@@ -14,6 +14,7 @@ use App\Http\Resources\Bookings\BookingsServicesCollection;
 use App\Http\Resources\Bookings\BookingsServicesResource;
 use App\Http\Resources\Bookings\BookingsWorkshopsCollection;
 use App\Http\Resources\Bookings\BookingsWorkshopsResource;
+use Illuminate\Support\Facades\Log;
 
 class BookingController extends Controller
 {
@@ -46,19 +47,25 @@ class BookingController extends Controller
                 $requestedService = [];
                 $type = 'service';
 
-                if (isset($request->program_id)) {
-                    $requestedService['Programs'] = $request->program_id;
-                }
-                if (isset($request->maintenance_id)) {
-                    $booking->time_id = $request->time_id;
-                    $requestedService['Maintenances'] = $request->maintenance_id;
-                }
-                if (isset($request->course_id)) {
-                    $requestedService['Courses'] = $request->course_id;
+                // return $request;
+
+
+                if (isset($request->programs_id)) {
+                    $requestedService['Programs'] = $request->programs_id;
                 }
 
+                if (isset($request->maintenance_id)) {
+                    $booking->time = $request->time;
+                    $requestedService['Maintenances'] = $request->maintenance_id;
+                }
+
+                if (isset($request->courses_id)) {
+                    $requestedService['Courses'] = $request->courses_id;
+                }
+                // return $requestedService;
                 $service_id = $this->createService($request->user_id, $requestedService);
                 $booking->service_id = $service_id;
+                // return $service_id;
             } else if (isset($request->type) && $request->type == "volunteers") {
                 $booking->is_volunteer = 1;
                 $type = 'volunteer';
@@ -68,21 +75,14 @@ class BookingController extends Controller
             switch ($type) {
                 case 'workshop':
                     return new BookingsWorkshopsResource($booking);
-                    // return new
-                    //     BookingsWorkshopsCollection(Booking::whereNotNull('workshop_id')->get());
 
                 case 'service':
-                    // return new
-                    //     BookingsServicesCollection(Booking::whereNotNull('workshop_id')->get());
 
                     return new BookingsServicesResource($booking);
                 case 'volunteer':
-                    // return new
-                    // BookingsVolunteersCollection(Booking::whereNotNull('workshop_id')->get());
 
                     return new BookingsVolunteersResource($booking);
                 default:
-                    // return new BookingResource($booking);
                     return "Informa Team";
             }
         } catch (\Exception $e) {
@@ -99,9 +99,10 @@ class BookingController extends Controller
         if (isset($booking)) {
 
             if (isset($booking->workshop_id)) {
-                return response()->json([
-                    'data' => new BookingsWorkshopsResource($booking)
-                ]);
+                // return response()->json([
+                //     'data' => new BookingsWorkshopsResource($booking)
+                // ]);
+                return new BookingsWorkshopsResource($booking);
             } else if (isset($booking->service_id)) {
                 return response()->json([
                     'data' => new BookingsServicesResource($booking)
@@ -152,27 +153,42 @@ class BookingController extends Controller
 
     public function createService($user_id, $requestedService)
     {
-        $service = new Service;
 
-        $service->Beneficiarie_id = $user_id;
+        try {
 
-        foreach ($requestedService as $key => $value) {
-            if ($key == 'Programs') {
-                $service->Program_id = $value;
+
+            $service = new Service;
+
+            $service->Beneficiarie_id = $user_id;
+            $service->started_at = now();
+            $service->ended_at = now();
+            $service->save();
+
+            foreach ($requestedService as $key => $value) {
+                if ($key == 'Programs') {
+                    foreach ($value as $entity) {
+                        $service->programs()->attach($entity['id']);
+                    }
+                }
+
+                if ($key == 'Maintenances') {
+                    $service->Maintenance_id = $value;
+                }
+
+                if ($key == 'Courses') {
+                    foreach ($value as $entity) {
+                        $service->courses()->attach($entity['id']);
+                    }
+                    // $service->Course_id = $value;
+                }
             }
-            if ($key == 'Maintenances') {
-                $service->Maintenance_id = $value;
-            }
-            if ($key == 'Courses') {
-                $service->Course_id = $value;
-            }
+
+            $service->save();
+
+            return $service->id;
+        } catch (\Exception $th) {
+            throw $th;
         }
-
-        $service->started_at = now();
-        $service->ended_at = now();
-        $service->save();
-
-        return $service->id;
     }
 
     public function workshops()

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Models\User;
+use App\Models\Chat;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserCollection;
@@ -19,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return new UserCollection(User::all());
+        return new UserCollection(User::where('role_id', 3)->get());
     }
 
     /**
@@ -106,6 +107,7 @@ class UserController extends Controller
                         "email_verified_at" => $user->email_verified_at,
                         "created_at" => $user->created_at,
                         "updated_at" => $user->updated_at,
+                        "role_id" => $user->role_id,
                         // 'result' => new UserResource($user)
 
                     ],
@@ -137,6 +139,11 @@ class UserController extends Controller
             $user = User::create($attributes);
             $updateToken = $user->createToken('update-token', ['update']);
 
+            $chat = Chat::create([
+                'title' => 'chat - ' . $user->id,
+                'user_id' => $user->id
+            ]);
+
             return response()->json(
                 [
                     'api_token' => $updateToken->plainTextToken,
@@ -147,6 +154,7 @@ class UserController extends Controller
                     "email_verified_at" => $user->email_verified_at,
                     "created_at" => $user->created_at,
                     "updated_at" => $user->updated_at,
+                    "role_id" => $user->role_id,
                     // 'result' => new UserResource($user)
                 ],
                 200
@@ -191,6 +199,7 @@ class UserController extends Controller
                     "email_verified_at" => $user->email_verified_at,
                     "created_at" => $user->created_at,
                     "updated_at" => $user->updated_at,
+                    "role_id" => $user->role_id,
                     // 'result' => new UserResource($user)
                 ],
                 200

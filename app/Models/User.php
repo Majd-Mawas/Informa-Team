@@ -69,6 +69,11 @@ class User extends Authenticatable
         return $this->hasMany(Article::class, "author_id");
     }
 
+    public function chat()
+    {
+        return $this->hasMany(Chat::class, 'user_id');
+    }
+
     public function message()
     {
         return $this->hasMany(Message::class, "user_id");
