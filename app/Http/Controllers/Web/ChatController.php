@@ -92,7 +92,17 @@ class ChatController extends Controller
 
     public function all_chats()
     {
-        $chats = Chat::with('user')->orderByDesc('created_at')->get();
+        $chats = Chat::with(['user', 'messages' => function ($query) {
+            $query->latest(); // Order messages within the chat by newest first
+        }])
+            ->whereHas('messages') // Ensure only chats with messages are returned
+            ->orderByDesc(
+                Message::select('created_at')
+                    ->whereColumn('chat_id', 'chats.id')
+                    ->orderByDesc('created_at')
+                    ->limit(1)
+            )
+            ->get();
 
         return response()->json(
             [
@@ -102,6 +112,7 @@ class ChatController extends Controller
             200
         );
     }
+
 
     public function chat_messages(Request $request)
     {

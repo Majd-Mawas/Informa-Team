@@ -3,12 +3,19 @@
 namespace App\Http\Controllers\Mobile;
 
 use App\Models\User;
+use App\Models\Program;
+use App\Models\Course;
+use App\Models\Article;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
+
+use App\Http\Resources\ProgramCollection;
+use App\Http\Resources\CourseCollection;
+use App\Http\Resources\ArticleCollection;
 
 
 
@@ -172,5 +179,30 @@ class UserController extends Controller
             //throw $th;
             return $e;
         }
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        // Search in Programs, Courses, and Articles
+        $programs = Program::where('Name', 'LIKE', "%{$query}%")
+            // ->orWhere('description', 'LIKE', "%{$query}%")
+            ->get();
+
+        $courses = Course::where('Name', 'LIKE', "%{$query}%")
+            // ->orWhere('description', 'LIKE', "%{$query}%")
+            ->get();
+
+        $articles = Article::where('title', 'LIKE', "%{$query}%")
+            // ->orWhere('content', 'LIKE', "%{$query}%")
+            ->get();
+
+        // Return results as JSON
+        return response()->json([
+            'programs' => new ProgramCollection($programs),
+            'courses' => new CourseCollection($courses),
+            'articles' => new ArticleCollection($articles),
+        ]);
     }
 }

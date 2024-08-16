@@ -32,6 +32,8 @@ Route::prefix('V1/flutter')->middleware('auth:sanctum')->group(function () {
     Route::get('bookings/services', [BookingController::class, 'services']);
     Route::get('bookings/workshops', [BookingController::class, 'workshops']);
     Route::get('bookings/volunteers', [BookingController::class, 'volunteers']);
+    Route::get('programs/category/{category_id}', [ProgramController::class, 'getProgramsByCategory']);
+    Route::post('search', [UserController::class, 'search']);
     Route::apiResource('users', UserController::class)->except('login', "signup")->names([
         'index' => 'v1.flutter.users.index',
         'show' => 'v1.flutter.users.show',
@@ -87,8 +89,6 @@ Route::prefix('V1/flutter')->middleware('auth:sanctum')->group(function () {
         'update' => 'v1.flutter.categories.update',
         'destroy' => 'v1.flutter.categories.destroy',
     ]);
-
-    Route::get('programs/category/{category_id}', [ProgramController::class, 'getProgramsByCategory']);
 });
 
 Route::prefix('V1/flutter')->controller(UserController::class)->group(function () {
