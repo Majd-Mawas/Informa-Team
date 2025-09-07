@@ -6,7 +6,7 @@ use App\Models\{Article, Booking, Category, Course, Maintenance, Message, Progra
 Route::get('/', function () {
     return view('welcome');
 });
-
+// test 
 // Route::get('/Article', function () {
 //     return Article::with("author", "rating")->get();
 // });
