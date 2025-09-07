@@ -5,6 +5,7 @@ use App\Http\Controllers\Mobile\WorkshopController;
 use App\Http\Controllers\Mobile\ArticleController;
 use App\Http\Controllers\Mobile\ProgramController;
 use App\Http\Controllers\Mobile\CategoryController;
+use App\Http\Controllers\Mobile\ProductController;
 use App\Http\Controllers\Mobile\CourseController as FlutterCourseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -88,6 +89,11 @@ Route::prefix('V1/flutter')->middleware('auth:sanctum')->group(function () {
         'store' => 'v1.flutter.categories.store',
         'update' => 'v1.flutter.categories.update',
         'destroy' => 'v1.flutter.categories.destroy',
+    ]);
+
+    Route::apiResource('products', ProductController::class)->only(['index', 'show'])->names([
+        'index' => 'v1.flutter.products.index',
+        'show' => 'v1.flutter.products.show',
     ]);
 });
 
