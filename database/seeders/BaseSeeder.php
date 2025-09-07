@@ -16,6 +16,7 @@ abstract class BaseSeeder extends Seeder
         }
 
         $imageName = Str::random(10) . '.png';
+        $imageRealPath = 'app/temp/' . $imageName;
         $imagePath = $directory . '/' . $imageName;
 
         $image = imagecreatetruecolor(640, 480);
@@ -25,6 +26,6 @@ abstract class BaseSeeder extends Seeder
         imagepng($image, $imagePath);
         imagedestroy($image);
 
-        return $imagePath;
+        return $imageRealPath;
     }
 }
