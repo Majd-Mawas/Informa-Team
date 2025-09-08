@@ -25,4 +25,12 @@ class ProductController extends Controller
     {
         return new ProductResource($product);
     }
+    
+    /**
+     * Display a listing of products by category ID.
+     */
+    public function byCategory($categoryId)
+    {
+        return new ProductCollection(Product::where('category_id', $categoryId)->get());
+    }
 }

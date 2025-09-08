@@ -6,6 +6,7 @@ use App\Http\Controllers\Mobile\ArticleController;
 use App\Http\Controllers\Mobile\ProgramController;
 use App\Http\Controllers\Mobile\CategoryController;
 use App\Http\Controllers\Mobile\ProductController;
+use App\Http\Controllers\Mobile\ProductCategoryController;
 use App\Http\Controllers\Mobile\CourseController as FlutterCourseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -94,6 +95,17 @@ Route::prefix('V1/flutter')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('products', ProductController::class)->only(['index', 'show'])->names([
         'index' => 'v1.flutter.products.index',
         'show' => 'v1.flutter.products.show',
+    ]);
+
+    Route::get('products/category/{categoryId}', [ProductController::class, 'byCategory'])
+        ->name('v1.flutter.products.by-category');
+
+    Route::get('product-categories/with-products', [ProductCategoryController::class, 'withProducts'])
+        ->name('v1.flutter.product-categories.with-products');
+
+    Route::apiResource('product-categories', ProductCategoryController::class)->only(['index', 'show'])->names([
+        'index' => 'v1.flutter.product-categories.index',
+        'show' => 'v1.flutter.product-categories.show',
     ]);
 });
 
