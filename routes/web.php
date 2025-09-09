@@ -1,67 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Models\{Article, Booking, Category, Course, Maintenance, Message, Program, Rating, Role, Service, Shift, Time, Training, User, Workshop};
+use App\Http\Controllers\RoutingController;
 
-Route::get('/', function () {
-    return view('welcome');
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+
+require __DIR__ . '/auth.php';
+
+Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
+    Route::get('', [RoutingController::class, 'index'])->name('root');
+    Route::get('/home', fn() => view('index'))->name('home');
+    Route::get('{first}/{second}/{third}', [RoutingController::class, 'thirdLevel'])->name('third');
+    Route::get('{first}/{second}', [RoutingController::class, 'secondLevel'])->name('second');
+    Route::get('{any}', [RoutingController::class, 'root'])->name('any');
 });
-// test 
-// Route::get('/Article', function () {
-//     return Article::with("author", "rating")->get();
-// });
-
-// Route::get('/Booking', function () {
-//     // return Booking::where('role_id', 3)->with("services")->get();
-//     return Booking::with("user", "workshop", "services", "time")->get();
-// });
-
-// Route::get('/Category', function () {
-//     return Category::with("courses", "programs")->get();
-// });
-
-// Route::get('/Courses', function () {
-//     return Course::with("services", "category")->get();
-// });
-
-// Route::get('/Maintenances', function () {
-//     return Maintenance::with("services")->get();
-// });
-
-// Route::get('/Message', function () {
-//     return Message::with("user")->get();
-// });
-
-// Route::get('/Programs', function () {
-//     return Program::with("services", "category")->get();
-// });
-// Route::get('/Rating', function () {
-//     return Rating::with("article", "user")->get();
-// });
-// Route::get('/Role', function () {
-//     return Role::with("users")->get();
-// });
-
-// Route::get('/Services', function () {
-//     return Service::with("beneficiaries", "programs", "courses", "maintenances", "volunteers", "booking")->get();
-// });
-
-// Route::get('/Shifts', function () {
-//     return Shift::with("volunteers", "coach", "time")->get();
-// });
-
-// Route::get('/Time', function () {
-//     return Time::with("shift", "booking")->get();
-// });
-
-// Route::get('/Trainings', function () {
-//     return Training::with("trainees")->get();
-// });
-
-// Route::get('/Users', function () {
-//     return user::with("training", "shifts", "workshops", "vol_services", "services", "article", "message", "rating", "role")->get();
-// });
-
-// Route::get('/Workshops', function () {
-//     return Workshop::with("coach", "booking")->get();
-// });
