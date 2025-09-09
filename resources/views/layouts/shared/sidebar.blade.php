@@ -62,6 +62,14 @@
                 </a>
             </li>
 
+            {{-- Programs --}}
+            <li class="menu-item">
+                <a href="{{ route('programs.index') }}" class="menu-link">
+                    <span class="menu-icon"><i class="mgc_code_line"></i></span>
+                    <span class="menu-text"> Programs </span>
+                </a>
+            </li>
+
             @env('APP_DEBUG')
                 <li class="menu-title">Apps</li>
 

@@ -5,6 +5,7 @@ use App\Http\Controllers\RoutingController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ProgramController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,9 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
     
     // Courses CRUD routes
     Route::resource('courses', CourseController::class);
+    
+    // Programs CRUD routes
+    Route::resource('programs', ProgramController::class);
     
     Route::get('{first}/{second}/{third}', [RoutingController::class, 'thirdLevel'])->name('third');
     Route::get('{first}/{second}', [RoutingController::class, 'secondLevel'])->name('second');
