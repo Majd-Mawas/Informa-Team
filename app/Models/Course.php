@@ -8,7 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     use HasFactory;
-    protected $guarded = [];
+    
+    protected $fillable = [
+        'Name',
+        'By',
+        'difficulty',
+        'type',
+        'duration',
+        'num_video',
+        'released_at',
+        'categories_id',
+        'telegram_link'
+    ];
 
     public function services()
     {

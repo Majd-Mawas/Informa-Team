@@ -17,7 +17,7 @@ class UserSeeder extends BaseSeeder
         $users = [
             [
                 'name' => 'د. محمد أحمد',
-                'email' => 'mohammad.ahmad@example.com',
+                'email' => 'admin@admin.com',
                 'password' => Hash::make('password123'),
                 'role_id' => 1, // مدير
                 'training_id' => null, // سنقوم بتحديثه لاحقاً
