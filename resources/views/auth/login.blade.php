@@ -17,11 +17,11 @@
             <div class="2xl:w-1/4 lg:w-1/3 md:w-1/2 w-full">
                 <div class="card overflow-hidden sm:rounded-md rounded-none">
                     <div class="p-6">
-                        <a href="{{ route('any', 'index') }}" class="block mb-8">
-                            <img class="h-6 block dark:hidden" src="/images/logo-dark.png" alt="">
-                            <img class="h-6 hidden dark:block" src="/images/logo-light.png" alt="">
-                        </a>
-
+                        <div>
+                            <img src="/images/logo.png" class="logo-lg h-12 mx-auto" height="50" style="height: 50px;"
+                                alt="Light logo">
+                            {{-- <img src="/images/logo.png" class="logo-sm" alt="Small logo"> --}}
+                        </div>
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
 
