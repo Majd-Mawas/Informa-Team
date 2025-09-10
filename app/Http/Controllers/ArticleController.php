@@ -43,6 +43,7 @@ class ArticleController extends Controller
         $article->body = $request->body;
         $article->author_name = $request->author_name;
         $article->released_at = $request->released_at;
+        $article->author_id = 1;
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
