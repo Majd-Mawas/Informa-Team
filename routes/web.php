@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\WorkshopController;
+use App\Http\Controllers\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,18 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
     
     // Workshops CRUD routes
     Route::resource('workshops', WorkshopController::class);
+    
+    // Articles CRUD routes
+    Route::resource('articles', ArticleController::class);
+    
+    // Support Dashboard routes
+    Route::prefix('support')->middleware(['auth', 'role:admin'])->group(function () {
+        Route::get('/dashboard', [\App\Http\Controllers\Web\SupportDashboardController::class, 'index'])->name('support.dashboard');
+        Route::get('/chat/{chat}', [\App\Http\Controllers\Web\SupportDashboardController::class, 'showChat'])->name('support.chat');
+        Route::post('/chat/{chat}/send', [\App\Http\Controllers\Web\SupportDashboardController::class, 'sendSupportMessage'])->name('support.send-message');
+        Route::post('/chat/{chat}/resolve', [\App\Http\Controllers\Web\SupportDashboardController::class, 'resolveChat'])->name('support.resolve');
+        Route::get('/resolved', [\App\Http\Controllers\Web\SupportDashboardController::class, 'resolvedChats'])->name('support.resolved');
+    });
     
     Route::get('{first}/{second}/{third}', [RoutingController::class, 'thirdLevel'])->name('third');
     Route::get('{first}/{second}', [RoutingController::class, 'secondLevel'])->name('second');

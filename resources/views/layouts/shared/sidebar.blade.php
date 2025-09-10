@@ -73,11 +73,24 @@
             {{-- Workshops --}}
             <li class="menu-item">
                 <a href="{{ route('workshops.index') }}" class="menu-link">
-                    <span class="menu-icon"><i class="mgc_presentation_line"></i></span>
+                    <span class="menu-icon"><i class="mgc_black_board_line"></i></span>
                     <span class="menu-text"> Workshops </span>
                 </a>
             </li>
 
+            {{-- Articles --}}
+            <li class="menu-item">
+                <a href="{{ route('articles.index') }}" class="menu-link">
+                    <span class="menu-icon"><i class="mgc_attachment_2_line"></i></span>
+                    <span class="menu-text"> Articles </span>
+                </a>
+            </li>
+
+            {{-- <li class="menu-item">
+                <a href="{{ route('second', ['icons', 'mingcute']) }}" class="menu-link">
+                    <span class="menu-text">Mingcute</span>
+                </a>
+            </li> --}}
             @env('APP_DEBUG')
                 <li class="menu-title">Apps</li>
 
