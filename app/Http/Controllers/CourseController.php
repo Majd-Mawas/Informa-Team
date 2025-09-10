@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
@@ -35,14 +36,18 @@ class CourseController extends Controller
             'Name' => 'required|string|max:255',
             'By' => 'nullable|string|max:255',
             'difficulty' => 'nullable|string|max:255',
-            'type' => 'nullable|string|max:255',
             'duration' => 'nullable|string|max:255',
             'num_video' => 'nullable|string|max:255',
             'released_at' => 'nullable|date',
             'categories_id' => 'nullable|exists:categories,id',
             'telegram_link' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
+        unset($validated['image']);
+        if ($request->hasFile('image')) {
+            $validated['path'] = $request->file('image')->store('products', 'public');
+        }
         Course::create($validated);
 
         return redirect()->route('courses.index')
@@ -75,13 +80,23 @@ class CourseController extends Controller
             'Name' => 'required|string|max:255',
             'By' => 'nullable|string|max:255',
             'difficulty' => 'nullable|string|max:255',
-            'type' => 'nullable|string|max:255',
             'duration' => 'nullable|string|max:255',
             'num_video' => 'nullable|string|max:255',
             'released_at' => 'nullable|date',
             'categories_id' => 'nullable|exists:categories,id',
             'telegram_link' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
+
+
+        unset($validated['image']);
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($course->path) {
+                Storage::disk('public')->delete($course->path);
+            }
+            $validated['path'] = $request->file('image')->store('products', 'public');
+        }
 
         $course->update($validated);
 
