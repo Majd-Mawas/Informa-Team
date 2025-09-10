@@ -13,7 +13,7 @@
                 <nav class="flex" aria-label="Breadcrumb">
                     <ol class="inline-flex items-center space-x-1 md:space-x-3">
                         <li class="inline-flex items-center">
-                            <a href="{{ route('dashboard') }}"
+                            <a href="{{ route('any', 'index') }}"
                                 class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-white">
                                 <i class="mgc_home_3_line text-lg mr-2"></i>
                                 Dashboard
