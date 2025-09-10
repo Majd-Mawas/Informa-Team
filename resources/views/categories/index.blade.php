@@ -83,7 +83,7 @@
                                                 @if ($category->path)
                                                     <img src="{{ asset('storage/' . $category->path) }}"
                                                         alt="{{ $category->name }}"
-                                                        class="h-10 w-auto object-cover rounded">
+                                                        class="h-10 w-auto object-cover rounded bg-secondary p-2">
                                                 @else
                                                     <span class="text-gray-400">No image</span>
                                                 @endif
