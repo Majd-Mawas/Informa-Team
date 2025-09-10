@@ -36,7 +36,7 @@ class ProgramController extends Controller
             'Name' => 'required|string|max:255',
             'Released_at' => 'required|date',
             'categories_id' => 'required|exists:categories,id',
-            'path' => 'nullable|file|mimes:exe,zip,rar|max:10240',
+            'path' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'telegram_link' => 'nullable|string|max:255',
             'youtube_link' => 'nullable|string|max:255',
             'size' => 'nullable|string|max:255',
@@ -79,7 +79,7 @@ class ProgramController extends Controller
             'Name' => 'required|string|max:255',
             'Released_at' => 'required|date',
             'categories_id' => 'required|exists:categories,id',
-            'path' => 'nullable|file|mimes:exe,zip,rar|max:10240',
+            'path' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'telegram_link' => 'nullable|string|max:255',
             'youtube_link' => 'nullable|string|max:255',
             'size' => 'nullable|string|max:255',
@@ -109,7 +109,7 @@ class ProgramController extends Controller
         if ($program->path) {
             Storage::disk('public')->delete($program->path);
         }
-        
+
         $program->delete();
 
         return redirect()->route('programs.index')

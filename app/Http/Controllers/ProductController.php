@@ -37,7 +37,7 @@ class ProductController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         if ($request->hasFile('image')) {
@@ -77,7 +77,7 @@ class ProductController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         if ($request->hasFile('image')) {
@@ -103,7 +103,7 @@ class ProductController extends Controller
         if ($product->path) {
             Storage::disk('public')->delete($product->path);
         }
-        
+
         $product->delete();
 
         return redirect()->route('products.index')

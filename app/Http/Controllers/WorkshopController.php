@@ -35,7 +35,7 @@ class WorkshopController extends Controller
             'description' => 'required|string',
             'Date' => 'required|date',
             'ended_at' => 'required|date|after:Date',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         if ($request->hasFile('image')) {
@@ -74,7 +74,7 @@ class WorkshopController extends Controller
             'description' => 'required|string',
             'Date' => 'required|date',
             'ended_at' => 'required|date|after:Date',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         if ($request->hasFile('image')) {
@@ -100,7 +100,7 @@ class WorkshopController extends Controller
         if ($workshop->path) {
             Storage::disk('public')->delete($workshop->path);
         }
-        
+
         $workshop->delete();
 
         return redirect()->route('workshops.index')

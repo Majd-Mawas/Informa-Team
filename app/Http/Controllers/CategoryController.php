@@ -32,7 +32,7 @@ class CategoryController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         $data = [
@@ -73,7 +73,7 @@ class CategoryController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         $data = [
@@ -85,7 +85,7 @@ class CategoryController extends Controller
             if ($category->image) {
                 Storage::disk('public')->delete($category->image);
             }
-            
+
             $imagePath = $request->file('image')->store('categories', 'public');
             $data['image'] = $imagePath;
         }
