@@ -38,6 +38,7 @@ class WorkshopController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
+        unset($validated['image']);
         if ($request->hasFile('image')) {
             $validated['path'] = $request->file('image')->store('workshops', 'public');
         }
@@ -77,6 +78,7 @@ class WorkshopController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
+        unset($validated['image']);
         if ($request->hasFile('image')) {
             // Delete old image if exists
             if ($workshop->path) {

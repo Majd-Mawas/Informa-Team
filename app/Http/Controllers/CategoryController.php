@@ -81,13 +81,12 @@ class CategoryController extends Controller
         ];
 
         if ($request->hasFile('image')) {
-            // Delete old image if exists
             if ($category->image) {
                 Storage::disk('public')->delete($category->image);
             }
 
             $imagePath = $request->file('image')->store('categories', 'public');
-            $data['image'] = $imagePath;
+            $data['path'] = $imagePath;
         }
 
         $category->update($data);

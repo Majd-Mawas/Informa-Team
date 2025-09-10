@@ -40,6 +40,7 @@ class ProductController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
+        unset($validated['image']);
         if ($request->hasFile('image')) {
             $validated['path'] = $request->file('image')->store('products', 'public');
         }
@@ -79,6 +80,8 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
+
+        unset($validated['image']);
 
         if ($request->hasFile('image')) {
             // Delete old image if exists
