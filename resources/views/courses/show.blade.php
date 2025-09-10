@@ -40,6 +40,12 @@
                             </div>
                         @endif
 
+                        @if($course->path)
+                            <div class="mb-6">
+                                <img src="{{ asset('storage/' . $course->path) }}" alt="{{ $course->Name }}" class="w-full h-auto rounded-lg shadow-md">
+                            </div>
+                        @endif
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="space-y-4">
                                 <div>
