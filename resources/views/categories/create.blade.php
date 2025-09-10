@@ -34,7 +34,7 @@
             <div class="w-full">
                 <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
                     <div class="p-6">
-                        <form action="{{ route('categories.store') }}" method="POST">
+                        <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
                             @if ($errors->any())
@@ -53,8 +53,9 @@
                             </div>
 
                             <div class="mb-6">
-                                <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
-                                <textarea name="description" id="description" rows="4" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white">{{ old('description') }}</textarea>
+                                <label for="image" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Image</label>
+                                <input type="file" name="image" id="image" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white" accept="image/*">
+                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Upload a category image (optional)</p>
                             </div>
 
                             <div class="flex justify-end space-x-3">
