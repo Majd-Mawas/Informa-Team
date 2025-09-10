@@ -70,6 +70,14 @@
                 </a>
             </li>
 
+            {{-- Workshops --}}
+            <li class="menu-item">
+                <a href="{{ route('workshops.index') }}" class="menu-link">
+                    <span class="menu-icon"><i class="mgc_presentation_line"></i></span>
+                    <span class="menu-text"> Workshops </span>
+                </a>
+            </li>
+
             @env('APP_DEBUG')
                 <li class="menu-title">Apps</li>
 
