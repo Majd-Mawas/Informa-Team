@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mobile;
 
 use App\Http\Controllers\Controller;
 use App\Models\ProductCategory;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProductCategoryResource;
 use App\Http\Resources\ProductCategoryCollection;
@@ -16,7 +17,9 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        return new ProductCategoryCollection(ProductCategory::all());
+        // Return all categories that have products
+        $categoriesWithProducts = Category::has('products')->get();
+        return new ProductCategoryCollection($categoriesWithProducts);
     }
 
     /**
@@ -34,7 +37,7 @@ class ProductCategoryController extends Controller
     {
         return new ProductCollection($productCategory->products);
     }
-    
+
     /**
      * Get categories that have products.
      */

@@ -130,11 +130,11 @@ Route::prefix('V1/flutter')->controller(UserController::class)->group(function (
 // Chatbot API Routes
 Route::prefix('V1/chatbot')->middleware('auth:sanctum')->group(function () {
     Route::get('chats', [\App\Http\Controllers\Web\ChatbotController::class, 'userChats']);
-    Route::post('message', [\App\Http\Controllers\Web\ChatbotController::class, 'processMessage']);
-    Route::get('history/{user_id}', [\App\Http\Controllers\Web\ChatbotController::class, 'getChatHistory']);
-    Route::get('support-needed', [\App\Http\Controllers\Web\ChatbotController::class, 'getChatsNeedingSupport']);
-    Route::post('resolve/{chatId}', [\App\Http\Controllers\Web\ChatbotController::class, 'markChatResolved']);
+    // Route::post('message', [\App\Http\Controllers\Web\ChatbotController::class, 'processMessage']);
     Route::get('messages/{chat_id}', [\App\Http\Controllers\Web\ChatbotController::class, 'getChatMessages']);
+    // Route::get('history/{user_id}', [\App\Http\Controllers\Web\ChatbotController::class, 'getChatHistory']);
+    // Route::get('support-needed', [\App\Http\Controllers\Web\ChatbotController::class, 'getChatsNeedingSupport']);
+    // Route::post('resolve/{chatId}', [\App\Http\Controllers\Web\ChatbotController::class, 'markChatResolved']);
 });
 
 //     Route::apiResource('users', WebUserController::class)->except('login', "signup")->names([

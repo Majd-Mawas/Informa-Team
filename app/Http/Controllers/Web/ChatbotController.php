@@ -1,11 +1,14 @@
 <?php
+
 namespace App\Http\Controllers\Web;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\GeminiService;
 use App\Models\Chat;
 use App\Models\Message;
 use Illuminate\Support\Facades\Auth;
+
 class ChatbotController extends Controller
 {
     protected $geminiService;
@@ -158,10 +161,17 @@ class ChatbotController extends Controller
 
     public function userChats()
     {
-        $chats = Chat::where('user_id', Auth::id())->get();
+        $chat = Chat::where('user_id', Auth::id())->with('messages')->first();
+        if (!(isset($chat))) {
+            $chat = Chat::create([
+                'user_id' => Auth::id(),
+                'title' => 'Chat ' . now()->format('Y-m-d H:i:s'),
+            ]);
+        }
+
         return response()->json([
             'success' => true,
-            'chats' => $chats
+            'chat' => $chat
         ]);
     }
 
@@ -175,10 +185,10 @@ class ChatbotController extends Controller
     {
         // Find the chat
         $chat = Chat::findOrFail($chat_id);
-        
+
         // Verify the authenticated user has permission to view these messages
         $currentUser = Auth::user();
-        
+
         // Only allow users to view their own chat messages or admins to view any messages
         if ($currentUser->id != $chat->user_id && !$currentUser->hasRole('admin')) {
             return response()->json([
@@ -186,12 +196,12 @@ class ChatbotController extends Controller
                 'message' => 'Unauthorized access to chat messages'
             ], 403);
         }
-        
+
         // Get all messages for the chat ordered by creation time
         $messages = Message::where('chat_id', $chat_id)
             ->orderBy('created_at', 'asc')
             ->get();
-        
+
         return response()->json([
             'success' => true,
             'chat' => $chat,
