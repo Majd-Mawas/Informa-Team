@@ -32,7 +32,7 @@
             <li class="menu-title">Menu</li>
 
             <li class="menu-item">
-                <a href="{{ route('any', 'index') }}" class="menu-link">
+                <a href="{{ route('any', 'home') }}" class="menu-link">
                     <span class="menu-icon"><i class="mgc_home_3_line"></i></span>
                     <span class="menu-text"> Dashboard </span>
                 </a>
